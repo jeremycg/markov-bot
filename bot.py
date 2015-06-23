@@ -4,6 +4,11 @@ import sys
 import csv
 import random
 
+#input is a file generated from:
+#http://www.ncbi.nlm.nih.gov/pubmed?term=%22PloS%20one%22%5BJournal%5D
+#exported as .csv
+#easy to modify for any other journal
+
 traindict={}
 startingwords=[]
 
@@ -11,7 +16,7 @@ twitter = Twython("API KEY",
                   "API SECRET",
                   "ACCESS TOKEN",
                   "YOUR ACCESS TOKEN SECRET")
-                  
+
 def makedict(file):
   with open(file, 'rt',encoding="utf-8") as csvfile:
      spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -28,11 +33,11 @@ def makedict(file):
          traindict[(words[-2],words[-1])].append(False)
          startingwords.append((words[0],words[1]))
   return(traindict,startingwords)
-             
-       
+
+
 def maketweet(dicttouse,startingwords):
     sentence=[]
-    chosen = random.choice(startingwords)  
+    chosen = random.choice(startingwords)
     while chosen[1]:
         sentence = sentence + [chosen[0]]
         chosen = (chosen[1],random.choice(dicttouse[chosen]))
@@ -49,4 +54,3 @@ while tweeted==0:
         twitter.update_status(status=totweet)
         print(totweet)
         tweeted=1
-
