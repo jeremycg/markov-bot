@@ -33,10 +33,11 @@ def onetitle(x,traindict, startingwords):
         return
     
 def makedict(file):
-    x = list(pd.read_csv(file, error_bad_lines=False, usecols = ['Title']).index)
+    x = pd.read_csv(file, error_bad_lines=False, usecols = ['Title'])
+    x.reset_index(level=0,inplace=True)
     traindict={}
     startingwords=[]
-    [onetitle(i, traindict, startingwords) for i in x]
+    [onetitle(i, traindict, startingwords) for i in x['index']]
     return traindict,startingwords
 
 
