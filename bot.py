@@ -21,14 +21,8 @@ def onetitle(x,traindict, startingwords):
         return
     else:
         for wordindex in range(len(words)-2):
-            if (words[wordindex],words[wordindex+1]) not in traindict:
-                traindict[(words[wordindex],words[wordindex+1])] = [words[wordindex+2]]
-            else:
-                traindict[(words[wordindex],words[wordindex+1])].append(words[wordindex+2])
-        if (words[-2],words[-1]) not in traindict:
-            traindict[(words[-2],words[-1])] = [False]
-        else:
-            traindict[(words[-2],words[-1])].append(False)
+            traindict.setdefault((words[wordindex],words[wordindex+1]),[]).append(words[wordindex+2])
+        traindict.setdefault((words[-2],words[-1]),[]).append(False)
         startingwords.append((words[0],words[1]))
         return
     
